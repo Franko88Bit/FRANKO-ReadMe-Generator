@@ -87,10 +87,41 @@ const questions = [
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+   fileSystem.writeFile(fileName, data, err => { 
+    if (err) {
+        return console.log(err);
+    }
+    else {
+      console.log("Success!!!! Your README.md file has been generated");
+    };
+     
+   });
+}
+const writeFileAsync = util.promisify(writeToFile);
 
 // TODO: Create a function to initialize app
-function init() {}
+async function init() {
+    try {
+
+        const userResponses = await inquirer.createPromptModule(questions);
+        console.log("your responses: ", userResponses);
+        console.log("Thank you for your responses! Fetching your GitHub data next...");
+
+        const userInfo = await api.getUser(userResponses);
+        console.log("Your GitHub user info: ", userInfo);
+
+        console.log("Generating your README next...")
+        const markdown = generateMarkdown(userResponses, userInfo);
+        console.log(markdown);
+
+        await writeFileAsync("ExampleREADME.md" , markdown);
+    } catch (error)  {
+        console.log(error);
+    }
+};
+
+init();
 
 // Function call to initialize app
-init();
+ 
