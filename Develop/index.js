@@ -104,7 +104,6 @@ const writeFileAsync = utilities.promisify(writeToFile);
 // Create a function to initialize app
 async function init() {
     try {
-
         const userResponses = await inquirer.createPromptModule(questions);
         console.log("your responses: ", userResponses);
         console.log("Thank you for your responses! Fetching your GitHub data next...");
