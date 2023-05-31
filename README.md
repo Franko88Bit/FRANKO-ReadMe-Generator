@@ -3,4 +3,4 @@ A beautiful thing - command-line application that dynamically generates a profes
 
 As a developer i am creating a README generator so that a user can generate a readme from my javascript program. So that a user can generate a readme easily and faster without manually typing to create a readme file.
 
-Since this application is not deployed like usual via github pages, I will provide a link to a video demonstrating its functionality. I will use technology to record the video from the computer and verbally walk through the functionality of this app, end to end.git
+Since this application is not deployed like usual via github pages, I will provide a link to a video demonstrating its functionality. I will use technology to record the video from the computer and verbally walk through the functionality of this app, end to end.
