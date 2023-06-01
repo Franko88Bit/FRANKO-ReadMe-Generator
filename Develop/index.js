@@ -1,126 +1,99 @@
-// external modules
-const inquirer = require("inquirer");
-const fileSystem = require("fs");
-const utilities = require("util");
-// internal modules
-const generateMarkdown = require("./utils/generateMarkdown.js");
-const api = require("./utils/api.js");
+const inquirer = require('inquirer');
+const fs = require('fs');
+const utilities = require('util');
+const api = require('./utils/api.js');
+const generateMarkdown = require('./utils/generateMarkdown.js');
 
-// Create an array of questions for user input
-const questions = [ 
+// for user input when node program is run on command line
+const questions = [
     {
-        type: "input",
-        message: "What is your Github username?",
-        name: "username",
-        default: "Franko88Bit",
-        validate: function (answer) {
-            if (answer.length < 1 ) {
-                return console.log("A valid GitHub username is required.");
-            }
-            return true;
-        }
-
+        type: 'input',
+        message: "What is your GitHub username?",
+        name: 'username',
+        default: 'Franko88Bit'
     },
     {
-        type: "input",
+        type: 'input',
         message: "What is the name of your GitHub repo?",
-        name: "repo",
-        default: "readme-generator",
-        validate: function (answer) {
-            if (answer.length < 1) {
-                return console.log('A valid GitHub username is required for a badge.');
-            }
-            return true;
-        }
-
+        name: 'repo',
+        default: 'professional-readme-generator'
     },
     {
-        type: "input",
+        type: 'input',
         message: "What is the title of your project?",
-        name: "title",
-        default: "Project Title",
-        validate: function (answer) {
-            if (answer.length < 1) {
-                return console.log("A valid project title is required.");
-            }
-            return true;
-        }
+        name: 'title',
+        default: 'Project Title'
     },
     {
-        type: "input",
-        message: "Write a description of your project?",
-        name: "Description",
-        default: "Project Description",
-        validate: function (answer) {
-            if (answer.length < 1) {
-                return console.log("A valid project description is required.");
-
-            }
-            return true;
-        }
+        type: 'input',
+        message: "Write a description of your project.",
+        name: 'description',
+        default: 'Project Description'
     },
     {
-        type: "input",
-        message: "If applicable, describe the steps required to install your project for the installation section.",
-        name: "installation"
+        type: 'input',
+        message: "If applicable, describe the steps required to install your project for the Installation section.",
+        name: 'installation'
     },
     {
-        type: "input",
-        message: "provide instructions and examples of your project in use for the usage section.",
-        name:"usage"
+        type: 'input',
+        message: "Provide instructions and examples of your project in use for the Usage section.",
+        name: 'usage'
     },
     {
-        type: "input",
+        type: 'input',
+        message: "If applicable, provide guidelines on how other developers can contribute to your project.",
+        name: 'contributing'
+    },
+    {
+        type: 'input',
         message: "If applicable, provide any tests written for your application and provide examples on how to run them.",
-        name: "tests"
+        name: 'tests'
     },
     {
-        type: "list",
-        message: "if applicable, provide any tests written for your application and provide examples on how to run them.",
-        name: "tests"
-    },
-    {
-        type: "list",
+        type: 'list',
         message: "Choose a license for your project.",
-        choices: "GNU AGPAGPLv3', 'GNU GPLv3', 'GNU LGPLv3', 'Mozilla Public License 2.0', 'Apache License 2.0', 'MIT License', 'Boost Software License 1.0', 'The Unlicense']",
-        name: "license"
+        choices: ['GNU AGPLv3', 'GNU GPLv3', 'GNU LGPLv3', 'Mozilla Public License 2.0', 'Apache License 2.0', 'MIT License', 'Boost Software License 1.0', 'The Unlicense'],
+        name: 'license'
     }
 ];
 
-// Create a function to write README file
+// function writes to file called fileName with data input passed in
 function writeToFile(fileName, data) {
-   fileSystem.writeFile(fileName, data, err => { 
-    if (err) {
-        return console.log(err);
-    }
-    else {
-      console.log("Success!!!! Your README.md file has been generated");
-    };
-     
-   });
+    fs.writeFile(fileName, data, err => {
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log("Success! Your professional README file has been generated")
+    });
 }
+
 const writeFileAsync = utilities.promisify(writeToFile);
 
-// Create a function to initialize app
 async function init() {
     try {
-        const userResponses = await inquirer.createPromptModule(questions);
-        console.log("your responses: ", userResponses);
+        // use inquirer for user inputs with list called questions created above
+        const userResponses = await inquirer.prompt(questions);
+        console.log("Your responses: ", userResponses);
         console.log("Thank you for your responses! Fetching your GitHub data next...");
 
+        // Call GitHub api for user info
         const userInfo = await api.getUser(userResponses);
         console.log("Your GitHub user info: ", userInfo);
 
+        // Need to pass userResponses and userInfo to generateMarkdown function
         console.log("Generating your README next...")
         const markdown = generateMarkdown(userResponses, userInfo);
         console.log(markdown);
 
-        await writeFileAsync("ExampleREADME.md" , markdown);
-    } catch (error)  {
+        // Write markdown to professional readme file called Professional_README.md
+        await writeFileAsync('Professional_README.md', markdown);
+
+    } catch (error) {
         console.log(error);
     }
 };
 
-// Function call to initialize app
 init();
- 
+
