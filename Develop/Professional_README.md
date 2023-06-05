@@ -1,10 +1,10 @@
-# xczjncdjn
+# Readme generator
   
   ## Description 
   
   *The what, why, and how:* 
   
-  cxbvzjb
+  to generate a readme
 
   ## Table of Contents
   * [Installation](#installation)
@@ -17,29 +17,29 @@
   
   *Steps required to install project and how to get the development environment running:*
   
-  zxjncjd
+  test
   
   ## Usage 
   
   *Instructions and examples for use:*
   
-  xkvnzkd
+  test
   
   ## Contributing
   
   *If you would like to contribute it, you can follow these guidelines for how to do so.*
   
-  xcvx
+  test
   
   ## Tests
   
   *Tests for application and how to run them:*
   
-  zdvcz
+  test
   
   ## License
   
-  GNU AGPLv3
+  MIT License
   
   ---
   
